@@ -35,14 +35,8 @@
 	var sTop = tbl.p.scrollTop();
 	var min = tbl.startY;
 	var max = tbl.startY+tbl.t.outerHeight();
-	console.log( tbl.p.position().top)
 	if(sTop > min && sTop < max){
 		if(tbl.c.css('display')=='none') tbl.c.css('display', 'inline-table');
-		// updatelocation
-		tbl.c.css({
-			//'top': tbl.p.position().top
-			top: tbl.p.offset().top
-		});
 	}else{
 		tbl.c.css('display', 'none');
 	}
@@ -57,25 +51,37 @@
 		// store references
 		self = $(this);
 		var parent = self.parent();
+		var wrap = document.createElement('div');
+		wrap.className='stky-wrapper';
+		$(wrap).css('position','relative');
 		parent.scrollTop(0);
 		var guid = $.stickytable.guid();
 
+		// create wrap
+		// sometimes they all live in the same element so... lets check for that before wrapping the parent over and over
+		if(!parent.hasClass('stky-ct-el')){
+		       	parent.wrap(wrap);
+			parent.addClass('stky-ct-el');
+		}
+
 		// transform the parent
 		//if(parent.css('position') !=='relative' && parent.css('position') !=='absolute') parent.css('position','relative');
-		if(parent.parent().css('position') !=='relative' && parent.parent().css('position') !=='absolute') parent.parent().css('position','relative');
+		//if(parent.parent().css('position') !=='relative' && parent.parent().css('position') !=='absolute') parent.parent().css('position','relative');
 		// create our clone.
 		var clone = self.clone();
 		// get rid of useless nodes
 		clone.children('tbody').remove();
-		// add clone to container above current one.
-		clone.insertBefore(self);
 		clone.css({
 			display:'none',
 			position:'absolute',
-			width:parent[0].scrollWidth
+			top:0,
+			width:parent[0].scrollWidth,
 
 		});
 		clone.addClass('sticky-clone');
+		// add clone to container above current one.
+		parent.parent().prepend(clone);
+
 		$.stickytable.elements[guid] = {
 			t:self, p:parent,
 		       	c:clone, 
