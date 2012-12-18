@@ -4,7 +4,8 @@ Sticky ```<thead/>``` for tables. Even nested ones!
 
 ### Sample Markup
 ```
-<div id="container"> <!-- Always wrap it in something! -->
+...
+<div id="container"> <!-- Always wrap tables in something! -->
 	<table class="data-table" id="table1">
 		<thead>
 			<tr>
@@ -26,6 +27,7 @@ Sticky ```<thead/>``` for tables. Even nested ones!
 			<tr>
 		</tbody>
 	</table>
+	... you can add more tables if you'd like.
 </div>
 ...
 ```
