@@ -38,17 +38,19 @@
 				for(r in rules){
 					iter= $.stickytable.isNum(r);
 					if(iter !== false){
-						if(obj.is(rules[r].selectorText)){
-							for (s in rules[r].style){
-								iter = $.stickytable.isNum(s);
-								if(iter == false && s!=0 && s !='cssText'){
-									rule = rules[r].style[s];
-									if(typeof(rule)=='string' && rule !==''){
-										styles[s]= rule;
+						if(rules[r].selectorText && rules[r].selectorText.indexOf(":")==-1){
+							if(obj.is(rules[r].selectorText)){
+								for (s in rules[r].style){
+									iter = $.stickytable.isNum(s);
+									if(iter == false && s!=0 && s !='cssText'){
+										rule = rules[r].style[s];
+										if(typeof(rule)=='string' && rule !==''){
+											styles[s]= rule;
+										}
 									}
 								}
-							}
 
+							}
 						}
 					}
 				}
@@ -86,7 +88,8 @@
 	$.stickytable.check_loc = function(tbl){
 		var sTop = tbl.p.scrollTop();
 		var min = tbl.startY;
-		var max = tbl.startY+tbl.t.outerHeight();
+		console.log(sTop, min);
+		var max = tbl.startY + tbl.t.outerHeight(true);
 		if(sTop > min && sTop < max){
 			if(tbl.c.css('display')=='none') tbl.c.css('display', 'inline-table');
 		}else{
@@ -97,7 +100,7 @@
 
 	$.stickytable.updated_p_styles = {
 		margin:0,
-		position:'static',
+		position:'relative',
 		float:'none'
 	}
     
@@ -121,7 +124,6 @@
 			wrap.addClass('stky-wrapper');
 			// get styles and patch them!
 			p_styles = $.stickytable.css(parent);
-			console.log(p_styles);
 			wrap.css(p_styles);
 			parent.css($.stickytable.updated_p_styles);
 		       	parent.wrap(wrap);
@@ -137,6 +139,7 @@
 		clone.css({
 			display:'none',
 			position:'absolute',
+			'z-index':100,
 			width:parent[0].scrollWidth,
 
 		});
@@ -145,9 +148,10 @@
 		//wrap.append(clone);
 
 		$.stickytable.elements[guid] = {
-			t:self, p:parent,
+			t:self, 
+			p:parent,
 		       	c:clone, 
-			startY:self.position().top-parent.offset().top
+			startY:self.position().top
 		};
 		// attach a mouseevent handler to parent
 		parent.scroll(function(e){
