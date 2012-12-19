@@ -26,43 +26,56 @@
 	};
 
     	$.stickytable.elements = {};
-    
-	$.stickytable.css = function(a){
-		var sheets = document.styleSheets, o = {};
+	$.stickytable.get_styles = function(obj){
+		var sheets = document.styleSheets;
+		var iter;
+		var rule;
+		var styles = {};
 		for(var i in sheets) {
-			var rules = sheets[i].rules || sheets[i].cssRules;
-			for(var r in rules) {
-				if(a.is(rules[r].selectorText)) {
-					o = $.extend(o, $.stickytable.cssToObj(rules[r].style), $.stickytable.cssToObj(a.attr('style')));
+			iter = $.stickytable.isNum(i);
+			if(iter !== false){
+				var rules = sheets[i].rules || sheets[i].cssRules;
+				for(r in rules){
+					iter= $.stickytable.isNum(r);
+					if(iter !== false){
+						if(obj.is(rules[r].selectorText)){
+							for (s in rules[r].style){
+								iter = $.stickytable.isNum(s);
+								if(iter == false && s!=0 && s !='cssText'){
+									rule = rules[r].style[s];
+									if(typeof(rule)=='string' && rule !==''){
+										styles[s]= rule;
+									}
+								}
+							}
+
+						}
+					}
 				}
 			}
-		}
-		return o;
 
+		}
+		return styles;
 	}
 
-	$.stickytable.cssToObj = function(css){
-		var s = {};
-		if(!css) return s;
-		if(css instanceof CSSStyleDeclaration) {
-			for(var i in css) {
-				if((css[i]).toLowerCase) {
-					s[(css[i]).toLowerCase()] = (css[css[i]]);
-				}
-			}
-		} else if(typeof css == "string") {
-			css = css.split("; ");          
-			for (var i in css) {
-			var l = css[i].split(": ");
-				s[l[0].toLowerCase()] = (l[1]);
-			};
+	$.stickytable.isNum = function(t){
+		t = parseInt(t);
+		if(isNaN(t)){
+			return false;
+		}else{
+			return t;
 		}
 
+	}
+    
+	$.stickytable.css = function(a){
+		var s = $.stickytable.get_styles(a);
 		s['background'] = 'none';
 		s['border'] = 'none';
 		s['overflow'] = 'visible';
+		s['overflowX'] = 'visible';
+		s['overflowY'] = 'visible';
 		s['padding'] = 0;
-
 		return s;
 	}
 
@@ -108,6 +121,7 @@
 			wrap.addClass('stky-wrapper');
 			// get styles and patch them!
 			p_styles = $.stickytable.css(parent);
+			console.log(p_styles);
 			wrap.css(p_styles);
 			parent.css($.stickytable.updated_p_styles);
 		       	parent.wrap(wrap);
