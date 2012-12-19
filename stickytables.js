@@ -38,6 +38,7 @@
 				for(r in rules){
 					iter= $.stickytable.isNum(r);
 					if(iter !== false){
+						if(rules[r]){
 						if(rules[r].selectorText && rules[r].selectorText.indexOf(":")==-1){
 							if(obj.is(rules[r].selectorText)){
 								for (s in rules[r].style){
@@ -51,7 +52,7 @@
 								}
 
 							}
-						}
+						}}
 					}
 				}
 			}
@@ -88,7 +89,6 @@
 	$.stickytable.check_loc = function(tbl){
 		var sTop = tbl.p.scrollTop();
 		var min = tbl.startY;
-		console.log(sTop, min);
 		var max = tbl.startY + tbl.t.outerHeight(true);
 		if(sTop > min && sTop < max){
 			if(tbl.c.css('display')=='none') tbl.c.css('display', 'inline-table');
@@ -124,10 +124,12 @@
 			wrap.addClass('stky-wrapper');
 			// get styles and patch them!
 			p_styles = $.stickytable.css(parent);
+			p_styles['width'] = parent.width() + "px";
+			p_styles['float'] = parent.css('float');
 			wrap.css(p_styles);
-			parent.css($.stickytable.updated_p_styles);
 		       	parent.wrap(wrap);
 			parent.addClass('stky-ct-el');
+			parent.css($.stickytable.updated_p_styles);
 			wrap = parent.parent();
 		}else{
 			wrap = parent.parent();
@@ -140,7 +142,7 @@
 			display:'none',
 			position:'absolute',
 			'z-index':100,
-			width:parent[0].scrollWidth,
+			width:parent[0].scrollWidth + "px"
 
 		});
 		clone.addClass('sticky-clone');
