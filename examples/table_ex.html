@@ -6,6 +6,7 @@
 			height:200px;
 			overflow:auto;
 			width:400px;
+			float:right;
 		}
 
 		table{
@@ -15,7 +16,6 @@
 		
 
 		}
-
 		thead{
 			background:#e3e3e3;
 			padding:5px;
@@ -24,9 +24,17 @@
 		td{
 			border:thin solid #999;
 		}
+
+		#box{
+			width:200px;
+			height:200px;
+			float:left;
+			background:red;
+		}
 	</style>
 </head>
 <body>
+<div id="box"></div>
 <div id="container"> <!-- Always wrap it in something! -->
 	<table class="data-table" id="table1">
 		<thead>
@@ -92,13 +100,76 @@
 		</tbody>
 	</table>
 
+	<table class="data-table" id="table2">
+		<thead>
+			<tr>
+				<th> Col1</th><th> Col2</th><th> Col3</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td> Col1</td><td> Col2</td><td> Col3</td>
+			</tr>
+			<tr>
+				<td> Col1</td><td> Col2</td><td> Col3</td>
+			</tr>
+			<tr>
+				<td> Col1</td><td> Col2</td><td> Col3</td>
+			</tr>
+			<tr>
+				<td> Col1</td><td> Col2</td><td> Col3</td>
+			</tr>
+		</tbody>
+	</table>
+	<table class="data-table" id="table2">
+		<thead>
+			<tr>
+				<th> T2Col1</th><th> T2Col2</th><th> T2Col3</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td> Col1</td><td> Col2</td><td> Col3</td>
+			</tr>
+			<tr>
+				<td> Col1</td><td> Col2</td><td> Col3</td>
+			</tr>
+			<tr>
+				<td> Col1</td><td> Col2</td><td> Col3</td>
+			</tr>
+			<tr>
+				<td> Col1</td><td> Col2</td><td> Col3</td>
+			</tr>
+		</tbody>
+	</table>
+	<table class="data-table" id="table3">
+		<thead>
+			<tr>
+				<th> T3Col1</th><th> T3Col2</th><th> T3Col3</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td> Col1</td><td> Col2</td><td> Col3</td>
+			</tr>
+			<tr>
+				<td> Col1</td><td> Col2</td><td> Col3</td>
+			</tr>
+			<tr>
+				<td> Col1</td><td> Col2</td><td> Col3</td>
+			</tr>
+			<tr>
+				<td> Col1</td><td> Col2</td><td> Col3</td>
+			</tr>
+		</tbody>
+	</table>
 </div>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 <script src="../stickytables.js"></script>
 <script charset="utf-8" type="text/javascript">
     $(function(){
-            $(".data-table").stickytable();
-        });
+    	$(".data-table").stickytable();
+    });
     </script>
 </body>
 

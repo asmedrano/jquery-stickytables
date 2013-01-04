@@ -31,31 +31,12 @@
 		var iter;
 		var rule;
 		var styles = {};
-		for(var i in sheets) {
-			iter = $.stickytable.isNum(i);
+		var rules = window.getComputedStyle(obj.get(0), null);
+		for(r in rules){
+			iter= $.stickytable.isNum(r);
 			if(iter !== false){
-				var rules = sheets[i].rules || sheets[i].cssRules;
-				for(r in rules){
-					iter= $.stickytable.isNum(r);
-					if(iter !== false){
-						if(rules[r].selectorText && rules[r].selectorText.indexOf(":")==-1){
-							if(obj.is(rules[r].selectorText)){
-								for (s in rules[r].style){
-									iter = $.stickytable.isNum(s);
-									if(iter == false && s!=0 && s !='cssText'){
-										rule = rules[r].style[s];
-										if(typeof(rule)=='string' && rule !==''){
-											styles[s]= rule;
-										}
-									}
-								}
-
-							}
-						}
-					}
-				}
+				styles[rules[r]] = rules.getPropertyValue(rules[r]);
 			}
-
 		}
 		return styles;
 	}
@@ -88,7 +69,6 @@
 	$.stickytable.check_loc = function(tbl){
 		var sTop = tbl.p.scrollTop();
 		var min = tbl.startY;
-		console.log(sTop, min);
 		var max = tbl.startY + tbl.t.outerHeight(true);
 		if(sTop > min && sTop < max){
 			if(tbl.c.css('display')=='none') tbl.c.css('display', 'inline-table');
